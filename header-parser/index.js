@@ -19,9 +19,26 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+
+
 // your first API endpoint...
 app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
+});
+
+app.get("/api/whoami", (req, res) => {
+  ip = req.headers['x-forwarded-for'] || '127.0.0.1'
+  language = req.headers['accept-language']
+  software = req.headers['user-agent']
+  res.json({
+    ipaddress: ip,
+    language,
+    software
+  })
+})
+
+app.use((req, res) => {
+  res.status(404).send('Not Found');
 });
 
 // listen for requests :)
